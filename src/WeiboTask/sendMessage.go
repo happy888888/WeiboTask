@@ -22,6 +22,10 @@ var mBuffer *bytes.Buffer //用于在内存中保存日志
 // @param
 // @return
 func sendToServerChan(SCKEY string) {
+	if SCKEY == "" {
+		log.Println("未定义消息推送")
+		return
+	}
 	resp, err := http.PostForm(
 		"https://sc.ftqq.com/"+SCKEY+".send",
 		url.Values{
@@ -40,6 +44,7 @@ func sendToServerChan(SCKEY string) {
 		return
 	}
 	var data map[string]interface{}
+	print()
 	err = json.Unmarshal(body, &data)
 	if err != nil {
 		log.Println("消息推送读取响应异常："+err.Error())

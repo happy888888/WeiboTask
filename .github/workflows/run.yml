@@ -1,0 +1,36 @@
+name: 'run WeiboTask'
+
+on:
+  schedule:
+    - cron: '0 16 * * *' #凌晨00:00执行
+  watch:
+    types: started
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+    - uses: actions/checkout@v2
+      with: 
+        ref: master
+
+    - name: 生成配置文件
+      run: |
+          if [ -z "${{ secrets.ALC }}" ]; then
+          echo "没有配置secrets(ALC)"
+          exit -1
+          fi
+          echo '{"SCKEY":"${{ secrets.SCKEY }}","Cookies":[{"name":"ALC","value":"${{ secrets.ALC }}","domain":".login.sina.com.cn"},{"name":"ALF","value":"","domain":".weibo.com"}]}' >config.json
+
+    - uses: actions/setup-go@v2
+      with:
+        go-version: '1.15.6'
+    - run: go version
+
+    - name: 构建和执行WeiboTask
+      run: |
+          export GOPATH=$(pwd)
+          go build -o ./WeiboTask WeiboTask
+          ./WeiboTask
