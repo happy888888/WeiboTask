@@ -1,0 +1,119 @@
+name: 'publish'
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '版本号'
+        required: true
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    if: github.event.repository.owner.id == github.event.sender.id
+    steps:
+    - uses: actions/checkout@v2
+      with: 
+        ref: master
+
+    - uses: actions/setup-go@v2
+      with:
+        go-version: '1.15.6'
+
+    - name: 构建release
+      run: |
+          bash ./publish_release/publish_compressed_package.sh
+          bash ./publish_release/publish_ipk.sh
+      env:
+        version: ${{ github.event.inputs.version }}
+    
+    - name: Create release info
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.event.inputs.version }}
+        release_name: WeiboTask-v${{ github.event.inputs.version }}
+        draft: false
+        prerelease: false
+
+    - name: Upload windows_86
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release/WeiboTask-windows_86-v${{ github.event.inputs.version }}.zip
+        asset_name: WeiboTask-windows_86-v${{ github.event.inputs.version }}.zip
+        asset_content_type: application/zip
+        
+    - name: Upload linux_64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release/WeiboTask-linux_64-v${{ github.event.inputs.version }}.tar
+        asset_name: WeiboTask-linux_64-v${{ github.event.inputs.version }}.tar
+        asset_content_type: application/x-tar
+        
+    - name: Upload linux_arm
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release/WeiboTask-linux_arm-v${{ github.event.inputs.version }}.tar
+        asset_name: WeiboTask-linux_arm-v${{ github.event.inputs.version }}.tar
+        asset_content_type: application/x-tar
+        
+    - name: Upload linux_arm64
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release/WeiboTask-linux_arm64-v${{ github.event.inputs.version }}.tar
+        asset_name: WeiboTask-linux_arm64-v${{ github.event.inputs.version }}.tar
+        asset_content_type: application/x-tar
+       
+    - name: Upload linux_mips
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release/WeiboTask-linux_mips-v${{ github.event.inputs.version }}.tar
+        asset_name: WeiboTask-linux_mips-v${{ github.event.inputs.version }}.tar
+        asset_content_type: application/x-tar
+        
+    - name: Upload linux_mipsle
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./release/WeiboTask-linux_mipsle-v${{ github.event.inputs.version }}.tar
+        asset_name: WeiboTask-linux_mipsle-v${{ github.event.inputs.version }}.tar
+        asset_content_type: application/x-tar
+
+    - name: Upload linux_mips ipk
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./ipk/WeiboTask_${{ github.event.inputs.version }}_mips_24kc.ipk
+        asset_name: WeiboTask_${{ github.event.inputs.version }}_mips_24kc.ipk
+        asset_content_type: application/x-gzip
+        
+    - name: Upload linux_mipsle ipk
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./ipk/WeiboTask_${{ github.event.inputs.version }}_mipsle_24kc.ipk
+        asset_name: WeiboTask_${{ github.event.inputs.version }}_mipsle_24kc.ipk
+        asset_content_type: application/x-gzip
