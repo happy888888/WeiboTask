@@ -70,4 +70,3 @@ func (w *WeiboClient) ContainerGetIndex(id string, sinceId string) (map[string]i
 	}
 	return data, nil
 }
-

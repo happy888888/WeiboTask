@@ -11,15 +11,11 @@ import (
 )
 
 // @title         runTasks
-// @description   启动用户任务
+// @description   启动用户每日任务
 // @auth          星辰
 // @param         w          *WeiboClient.WeiboClient  微博客户端
-// @param         wg         *sync.WaitGroup           等待组，保持程序同步
 // @return
-func runTasks(w *WeiboClient.WeiboClient, wg *sync.WaitGroup) {
-	if wg != nil {
-		defer wg.Done()
-	}
+func runTasks(w *WeiboClient.WeiboClient) {
 	var mywg sync.WaitGroup
 	mywg.Add(1)
 	go Tasks.SuperCheckIn(w, &mywg)

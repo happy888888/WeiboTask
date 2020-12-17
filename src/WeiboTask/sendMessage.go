@@ -21,13 +21,14 @@ var mBuffer *bytes.Buffer //用于在内存中保存日志
 // @auth          星辰
 // @param
 // @return
-func sendToServerChan(SCKEY string) {
-	if SCKEY == "" {
+func sendToServerChan() {
+	defer mBuffer.Reset()
+	if MyConfig.SCKEY == "" {
 		log.Println("未定义消息推送")
 		return
 	}
 	resp, err := http.PostForm(
-		"https://sc.ftqq.com/"+SCKEY+".send",
+		"https://sc.ftqq.com/"+MyConfig.SCKEY+".send",
 		url.Values{
 			"text": {"Weibo_sign_in消息推送"},
 			"desp": {strings.Replace(mBuffer.String(), "\n", "\n\n", -1 )},

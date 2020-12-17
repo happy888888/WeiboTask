@@ -70,17 +70,22 @@ func GetSuperTopics(w *WeiboClient.WeiboClient, ch chan<- [2]string) {
 			log.Println("获取超话列表cards错误")
 			break
 		}
-		cardGroup, ok := cards[0].(map[string]interface{})["card_group"].([]interface{})
-		if !ok {
-			log.Println("获取超话列表card_group错误")
-			break
-		}
-		for _, v := range cardGroup {
-			item := v.(map[string]interface{})
-			if item["card_type"] == "8" {
-				name := item["title_sub"].(string)
-				id := reg.FindString(item["scheme"].(string))
-				ch <- [2]string{name, id}
+		for _, card := range cards {
+			cardJson := card.(map[string]interface{})
+			if cardJson["card_type"] == "11" {
+				cardGroup, ok := cardJson["card_group"].([]interface{})
+				if !ok {
+					log.Println("获取超话列表card_group错误")
+					break
+				}
+				for _, v := range cardGroup {
+					item := v.(map[string]interface{})
+					if item["card_type"] == "8" {
+						name := item["title_sub"].(string)
+						id := reg.FindString(item["scheme"].(string))
+						ch <- [2]string{name, id}
+					}
+				}
 			}
 		}
 		if sinceId == "" {

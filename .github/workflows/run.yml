@@ -22,7 +22,7 @@ jobs:
           echo "没有配置secrets(ALC)"
           exit -1
           fi
-          echo '{"SCKEY":"${{ secrets.SCKEY }}","Cookies":[{"name":"ALC","value":"${{ secrets.ALC }}","domain":".login.sina.com.cn"},{"name":"ALF","value":"","domain":".weibo.com"}]}' >config.json
+          echo '{"SCKEY":"${{ secrets.SCKEY }}","Stime": [0, 0],"Cookies":[{"name":"ALC","value":"${{ secrets.ALC }}","domain":".login.sina.com.cn"},{"name":"ALF","value":"","domain":".weibo.com"}]}' >config.json
 
     - uses: actions/setup-go@v2
       with:
