@@ -17,7 +17,8 @@ import (
 // @return
 func runTasks(w *WeiboClient.WeiboClient) {
 	var mywg sync.WaitGroup
-	mywg.Add(1)
+	mywg.Add(2)
 	go Tasks.SuperCheckIn(w, &mywg)
+	go Tasks.ReceiveScore(w, &mywg)
 	mywg.Wait()
 }

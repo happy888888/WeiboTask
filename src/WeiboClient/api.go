@@ -7,6 +7,8 @@ package WeiboClient
 import (
 	"encoding/json"
 	"io/ioutil"
+	"net/http"
+	"strings"
 )
 
 // @title         GeneralButton
@@ -55,6 +57,36 @@ func (w *WeiboClient) SuperCheckin(id string) (map[string]interface{}, error){
 // @return                   map[string]interface{}   接口返回值
 func (w *WeiboClient) ContainerGetIndex(id string, sinceId string) (map[string]interface{}, error){
 	resp, err := w.client.Get("https://m.weibo.cn/api/container/getIndex?containerid="+id+"&since_id="+sinceId)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var data map[string]interface{}
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+// @title         SuperReceiveScore
+// @description   超话每日积分获取
+// @auth          星辰
+// @param
+// @return                   map[string]interface{}   接口返回值
+func (w *WeiboClient) SuperReceiveScore() (map[string]interface{}, error){
+	req, err := http.NewRequest("POST",
+		"https://huati.weibo.cn/aj/super/receivescore",
+		strings.NewReader("type=REQUEST&user_score=999"),
+		)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Referer", "https://huati.weibo.cn/")
+	req.Header.Set("X-Requested-With", "XMLHttpRequest")
+	resp, err := w.client.Do(req)
 	if err != nil {
 		return nil, err
 	}
