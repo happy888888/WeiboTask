@@ -15,7 +15,7 @@ WeiboTask
 ### 🚀使用方式
 
 本项目***不会使用任何账号密码***，仅需要[新浪网](https://www.sina.com.cn/) 的一个名为`ALC`的cookie(获取方式见下面说明)并存放到config.json文件中 <br>
-config.json文件会缓存您的cookie以***保存***和刷新您的登录状态，使登录状态一直有效而***不必重复登录***，从而方便放在路由器等设备上持续运行 <br>
+config.json文件会缓存您的cookie以***保存***和刷新您的***登录状态***，使登录状态一直有效而***不必重复登录***，从而方便放在路由器等设备上持续运行 <br>
 
 #### 一、Windows本地运行
 
@@ -43,16 +43,16 @@ config.json文件会缓存您的cookie以***保存***和刷新您的登录状态
 
 * 2.2 安装
         使用`xshell`等工具登录路由器，执行下面的命令安装  <br>
-		`wget -O /tmp/WeiboTask.ipk "https://github.com/happy888888/WeiboTask/releases/download/1.0.0/WeiboTask_1.0.0_`uname -m`_24kc.ipk" && opkg install /tmp/WeiboTask.ipk` <br>
-		使用`xftp`(`WinScp`)等软件修改路由器目录`/etc/WeiboTask/config.json`文件，把***步骤1.1***中获得的cookie值填写到`"name": "ALC"`下面的`"value": ""`字段，内容参照上面***步骤1.3***中所示图片 <br>
-		执行命令启动 <br>
-		`WeiboTask -c /etc/WeiboTask/config.json`
-		
-* 3.3 设置定时启动
-        使用`xshell`等工具登录路由器，执行下面的命令配置crontab  <br>
-		`0 0 * * * /usr/bin/WeiboTask -c /etc/WeiboTask/config.json >>/etc/crontabs/root && /etc/init.d/cron reload` <br>
-		然后每天凌晨0点会自动运行  <br>
-		`当然路由器网页中有类似"定时任务"的功能可以把"0 0 * * * /usr/bin/WeiboTask -c /etc/WeiboTask/config.json"追加到后面一行保存，也有相同的效果`
+		```wget -O /tmp/WeiboTask.ipk "https://github.com/happy888888/WeiboTask/releases/download/1.0.0/WeiboTask_1.0.0_`uname -m`.ipk" && opkg install /tmp/WeiboTask.ipk``` <br>
+		在安装时会提示填入***步骤2.1***获取的cookie(ALC)，然后程序会自动运行，默认在每天`00:00`自动签到
+
+* 2.3 其他
+        启动程序的命令为`/etc/init.d/wbt start`
+        关闭程序的命令为`/etc/init.d/wbt stop`
+		重启程序的命令为`/etc/init.d/wbt restart`
+		安装完成如果输入了cookie(ALC)程序会自动启动不需要使用命令再启动一次
+		配置文件存放在`/etc/WeiboTask/config.json`文件中，包括保存的cookie和server酱推送的SCKEY以及每天的签到时间
+		卸载程序直接运行命令`opkg remove WeiboTask`
 
 #### 三、github Actions运行
 

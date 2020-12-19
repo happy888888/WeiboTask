@@ -104,8 +104,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ipk/WeiboTask_${{ github.event.inputs.version }}_mips_24kc.ipk
-        asset_name: WeiboTask_${{ github.event.inputs.version }}_mips_24kc.ipk
+        asset_path: ./ipk/WeiboTask_${{ github.event.inputs.version }}_mips.ipk
+        asset_name: WeiboTask_${{ github.event.inputs.version }}_mips.ipk
         asset_content_type: application/x-gzip
         
     - name: Upload linux_mipsle ipk
@@ -114,6 +114,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./ipk/WeiboTask_${{ github.event.inputs.version }}_mipsle_24kc.ipk
-        asset_name: WeiboTask_${{ github.event.inputs.version }}_mipsle_24kc.ipk
+        asset_path: ./ipk/WeiboTask_${{ github.event.inputs.version }}_mipsle.ipk
+        asset_name: WeiboTask_${{ github.event.inputs.version }}_mipsle.ipk
         asset_content_type: application/x-gzip
