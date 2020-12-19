@@ -6,6 +6,7 @@ package main
 
 import (
 	"WeiboClient"
+	"WeiboTask/Deamon"
 	"bytes"
 	"flag"
 	"io"
@@ -21,11 +22,17 @@ import (
 // @return
 func main() {
 	var configPath, logPath string
-	var isDeamon bool
-	flag.StringVar(&logPath, "l", "./log.log", "日志文件路径,默认为./log.log")
-	flag.StringVar(&configPath, "c", "./config.json", "配置文件路径,默认为./config.json")
-	flag.BoolVar(&isDeamon, "D", false, "是否持续运行")
+	var isDeamon, isLoop bool
+	flag.StringVar(&logPath, "l", "./WeiboTask.log", "日志文件路径,默认为./log.log")
+	flag.StringVar(&ConfigPath, "c", "./config.json", "配置文件路径,默认为./config.json")
+	flag.BoolVar(&isDeamon, "D", false, "是否以守护进程方式循环运行")
+	flag.BoolVar(&isLoop, "L", false, "循环运行")
 	flag.Parse()
+
+	if isDeamon {
+		Deamon.InitDeamon()
+	}
+
 	logFile, err := os.OpenFile(logPath, os.O_CREATE | os.O_APPEND | os.O_RDWR, 0600)
 	if err != nil {
 		println(err)
@@ -34,15 +41,15 @@ func main() {
 		initLog(logFile)
 		defer logFile.Close()
 	}
-	err = LoadConfig(configPath)
+	err = LoadConfig()
 	if err != nil {
 		log.Println("配置文件加载失败:"+err.Error())
 		os.Exit(6)
 	}
-	if isDeamon {
-		runDeamon(configPath)
+	if isDeamon || isLoop {
+		runLoop(configPath)
 	}else{
-		runOnce(configPath, false)
+		runOnce(false)
 	}
 }
 
@@ -67,9 +74,9 @@ func initLog(logFile *os.File) {
 // @param         configPath       string   配置文件路径
 // @param         reloadConfig     bool     执行前是否重载配置文件
 // @return
-func runOnce(configPath string, reloadConfig bool) {
+func runOnce(reloadConfig bool) {
 	if reloadConfig {
-		err := LoadConfig(configPath)
+		err := LoadConfig()
 		if err != nil {
 			log.Println("配置文件加载失败:"+err.Error())
 			os.Exit(6)
@@ -78,19 +85,19 @@ func runOnce(configPath string, reloadConfig bool) {
 	defer sendToServerChan()
 	wb := WeiboClient.New()
 	if wb.LoginByCookies(MyConfig.Cookies) {
-		defer func() { MyConfig.Cookies = wb.GetCookies(); _ = SaveConfig(configPath) }()
+		defer func() { MyConfig.Cookies = wb.GetCookies(); _ = SaveConfig() }()
 		runTasks(wb)
 	}else{
 		log.Println("登录失败")
 	}
 }
 
-// @title         runOnce
+// @title         runLoop
 // @description   周期运行任务
 // @auth          星辰
 // @param         configPath       string   配置文件路径
 // @return
-func runDeamon(configPath string) {
+func runLoop(configPath string) {
 	Now := time.Now()
 	todayTime := time.Date(Now.Year(), Now.Month(), Now.Day(), MyConfig.Stime[0], MyConfig.Stime[1], 0, 0, time.Local)
 	tomorrowTime := time.Date(Now.Year(), Now.Month(), Now.Day() + 1, MyConfig.Stime[0], MyConfig.Stime[1], 0, 0, time.Local)
@@ -100,7 +107,7 @@ func runDeamon(configPath string) {
 		time.Sleep(tomorrowTime.Sub(Now))
 	}
 	for {
-		go runOnce(configPath, true)
+		go runOnce(true)
 		time.Sleep(24 * time.Hour)
 	}
 }
