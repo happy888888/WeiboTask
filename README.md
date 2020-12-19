@@ -43,7 +43,7 @@ config.json文件会缓存您的cookie以***保存***和刷新您的***登录状
 
 * 2.2 安装
         使用`xshell`等工具登录路由器，执行下面的命令安装  <br>
-		```wget -O /tmp/WeiboTask.ipk "https://github.com/happy888888/WeiboTask/releases/download/1.0.0/WeiboTask_1.0.0_`uname -m`.ipk" && opkg install /tmp/WeiboTask.ipk``` <br>
+		```wget -O /tmp/WeiboTask.ipk "https://github.com/happy888888/WeiboTask/releases/download/1.0.1/WeiboTask_1.0.1_`uname -m`.ipk" && opkg install /tmp/WeiboTask.ipk``` <br>
 		在安装时会提示填入***步骤2.1***获取的cookie(ALC)，然后程序会自动运行，默认在每天`00:00`自动签到
 
 * 2.3 其他
