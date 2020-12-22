@@ -71,6 +71,26 @@ func (w *WeiboClient) GetCookies() []Cookie {
 	return rcookies
 }
 
+// @title         getCookie
+// @description   获取指定cookie
+// @auth          星辰
+// @param         name           string           cookie名称
+// @param         domain         string           cookie所在域名
+// @return                       string           cookie的value
+func (w *WeiboClient) getCookie(name string, domain string) string {
+	cookies := w.client.Jar.Cookies(
+		&url.URL{
+			Scheme: "https",
+			Host: domain,
+		})
+	for _, cookie := range cookies {
+		if cookie.Name == name {
+			return cookie.Value
+		}
+	}
+	return ""
+}
+
 // @title         isloginWeiboCn
 // @description   判断是否登录.weibo.cn，手机版一般用m.weibo.cn
 // @auth          星辰
@@ -83,31 +103,7 @@ func (w *WeiboClient) isloginWeiboCn() bool {
 	}
 	defer resp.Body.Close()
 	ctype := resp.Header.Get("Content-Type")
-	if ctype != "application/json; charset=utf-8" {
-		return false
-	}
-	data, err := w.apiConfig()
-	if err != nil {
-		return false
-	}
-	var ok bool
-	w.st, ok = data["data"].(map[string]interface{})["st"].(string)
-	if ok && w.st != "" {
-		/*w.client.Jar.SetCookies(
-			&url.URL{
-				Scheme: "https",
-				Host: ".m.weibo.cn",
-			},
-			[]*http.Cookie{
-				&http.Cookie{
-					Name: "XSRF-TOKEN",
-					Value: w.st,
-					Domain: ".m.weibo.cn",
-				},
-			})*/
-		return true
-	}
-	return false
+	return ctype == "application/json; charset=utf-8"
 }
 
 // @title         loginWeiboCn

@@ -34,6 +34,27 @@ func (w *WeiboClient) apiConfig() (map[string]interface{}, error) {
 	return data, nil
 }
 
+// @title         getST
+// @description   获取st参数
+// @auth          星辰
+// @param
+// @return                   string                   st的值
+func (w *WeiboClient) getST() string {
+	st := w.getCookie("XSRF-TOKEN", ".m.weibo.cn")
+	if st != "" {
+		return st
+	}
+	data, err := w.apiConfig()
+	if err != nil {
+		return ""
+	}
+	st, ok := data["data"].(map[string]interface{})["st"].(string)
+	if !ok {
+		return ""
+	}
+	return st
+}
+
 // @title         GeneralButton
 // @description   微博按钮接口
 // @auth          星辰
@@ -135,7 +156,7 @@ func (w *WeiboClient) SuperReceiveScore() (map[string]interface{}, error){
 func (w *WeiboClient) ComposeRepost(mid string, content string) (map[string]interface{}, error){
 	req, err := http.NewRequest("POST",
 		"https://m.weibo.cn/api/statuses/repost",
-		strings.NewReader("id="+mid+"&content="+content+"&mid="+mid+"&st="+w.st+"&_spr=screen:1920x1080"),
+		strings.NewReader("id="+mid+"&content="+content+"&mid="+mid+"&st="+w.getST()+"&_spr=screen:1920x1080"),
 	)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Referer", "https://m.weibo.cn/compose/repost")
@@ -164,7 +185,7 @@ func (w *WeiboClient) ComposeRepost(mid string, content string) (map[string]inte
 func (w *WeiboClient) DelMyblog(mid string) (map[string]interface{}, error){
 	req, err := http.NewRequest("POST",
 		"https://m.weibo.cn/profile/delMyblog",
-		strings.NewReader("mid="+mid+"&st="+w.st+"&_spr=screen:1920x1080"),
+		strings.NewReader("mid="+mid+"&st="+w.getST()+"&_spr=screen:1920x1080"),
 	)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Referer", "https://m.weibo.cn/profile/")
@@ -194,7 +215,7 @@ func (w *WeiboClient) DelMyblog(mid string) (map[string]interface{}, error){
 func (w *WeiboClient) CommentsCreate(mid string, content string) (map[string]interface{}, error){
 	req, err := http.NewRequest("POST",
 		"https://m.weibo.cn/api/comments/create",
-		strings.NewReader("content="+content+"&mid="+mid+"&st="+w.st+"&_spr=screen:1920x1080"),
+		strings.NewReader("content="+content+"&mid="+mid+"&st="+w.getST()+"&_spr=screen:1920x1080"),
 	)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Referer", "https://m.weibo.cn/detail/")
@@ -223,7 +244,7 @@ func (w *WeiboClient) CommentsCreate(mid string, content string) (map[string]int
 func (w *WeiboClient) CommentsDestroy(cid string) (map[string]interface{}, error){
 	req, err := http.NewRequest("POST",
 		"https://m.weibo.cn/comments/destroy",
-		strings.NewReader("cid="+cid+"&st="+w.st+"&_spr=screen:1920x1080"),
+		strings.NewReader("cid="+cid+"&st="+w.getST()+"&_spr=screen:1920x1080"),
 	)
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Referer", "https://m.weibo.cn/detail/")
