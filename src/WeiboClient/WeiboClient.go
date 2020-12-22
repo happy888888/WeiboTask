@@ -7,12 +7,14 @@ package WeiboClient
 import (
 	"net/http"
 	"net/http/cookiejar"
+	"net/url"
 	"time"
 )
 
 // WeiboClient   微博客户端对象，包含一个http客户端及cookieJar
 type WeiboClient struct{
 	client *http.Client
+	st string
 }
 
 // @title         init
@@ -27,6 +29,11 @@ func (w *WeiboClient) init() {
 		Timeout: 30 * time.Second,
 		CheckRedirect: func(req *http.Request, via []*http.Request) error {
 			return http.ErrUseLastResponse /* 不进入重定向 */
+		},
+		Transport: &http.Transport{
+			Proxy: func(_ *http.Request) (*url.URL, error) {
+				return url.Parse("http://127.0.0.1:8888")
+			},
 		},
 	}
 }

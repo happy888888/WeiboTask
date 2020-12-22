@@ -51,7 +51,7 @@ func (w *WeiboClient) LoginByCookies(cookies []Cookie) bool {
 // @param
 // @return                       []Cookie         "所有微博cookie"
 func (w *WeiboClient) GetCookies() []Cookie {
-	domains := []string{".login.sina.com.cn", ".sina.com.cn", ".weibo.com", ".weibo.cn"}
+	domains := []string{".login.sina.com.cn", ".m.weibo.cn", "huati.weibo.cn", ".sina.com.cn", ".weibo.com", ".weibo.cn"}
 	var rcookies []Cookie
 	for _, domain := range domains {
 		cookies := w.client.Jar.Cookies(
@@ -83,8 +83,31 @@ func (w *WeiboClient) isloginWeiboCn() bool {
 	}
 	defer resp.Body.Close()
 	ctype := resp.Header.Get("Content-Type")
-	return ctype == "application/json; charset=utf-8"
-	// application/json 一般登录成功，text/html登录失败
+	if ctype != "application/json; charset=utf-8" {
+		return false
+	}
+	data, err := w.apiConfig()
+	if err != nil {
+		return false
+	}
+	var ok bool
+	w.st, ok = data["data"].(map[string]interface{})["st"].(string)
+	if ok && w.st != "" {
+		/*w.client.Jar.SetCookies(
+			&url.URL{
+				Scheme: "https",
+				Host: ".m.weibo.cn",
+			},
+			[]*http.Cookie{
+				&http.Cookie{
+					Name: "XSRF-TOKEN",
+					Value: w.st,
+					Domain: ".m.weibo.cn",
+				},
+			})*/
+		return true
+	}
+	return false
 }
 
 // @title         loginWeiboCn

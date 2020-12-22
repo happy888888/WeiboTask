@@ -11,6 +11,29 @@ import (
 	"strings"
 )
 
+// @title         apiConfig
+// @description   用于获取st参数，cookie中XSRF-TOKEN也等于cookie
+// @auth          星辰
+// @param
+// @return                   map[string]interface{}   接口返回值
+func (w *WeiboClient) apiConfig() (map[string]interface{}, error) {
+	resp, err := w.client.Get("https://m.weibo.cn/api/config")
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var data map[string]interface{}
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
 // @title         GeneralButton
 // @description   微博按钮接口
 // @auth          星辰
@@ -86,6 +109,124 @@ func (w *WeiboClient) SuperReceiveScore() (map[string]interface{}, error){
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Referer", "https://huati.weibo.cn/")
 	req.Header.Set("X-Requested-With", "XMLHttpRequest")
+	resp, err := w.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var data map[string]interface{}
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+// @title         ComposeRepost
+// @description   转发帖子
+// @auth          星辰
+// @param         mid        string                   帖子id
+// @param         content    string                   转发内容
+// @return                   map[string]interface{}   接口返回值
+func (w *WeiboClient) ComposeRepost(mid string, content string) (map[string]interface{}, error){
+	req, err := http.NewRequest("POST",
+		"https://m.weibo.cn/api/statuses/repost",
+		strings.NewReader("id="+mid+"&content="+content+"&mid="+mid+"&st="+w.st+"&_spr=screen:1920x1080"),
+	)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Referer", "https://m.weibo.cn/compose/repost")
+	resp, err := w.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var data map[string]interface{}
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+// @title         DelMyblog
+// @description   删除自己的帖子
+// @auth          星辰
+// @param         mid        string                   帖子id
+// @return                   map[string]interface{}   接口返回值
+func (w *WeiboClient) DelMyblog(mid string) (map[string]interface{}, error){
+	req, err := http.NewRequest("POST",
+		"https://m.weibo.cn/profile/delMyblog",
+		strings.NewReader("mid="+mid+"&st="+w.st+"&_spr=screen:1920x1080"),
+	)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Referer", "https://m.weibo.cn/profile/")
+	resp, err := w.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var data map[string]interface{}
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+// @title         CommentsCreate
+// @description   帖子下发表评论
+// @auth          星辰
+// @param         mid        string                   帖子id
+// @param         content    string                   转发内容
+// @return                   map[string]interface{}   接口返回值
+func (w *WeiboClient) CommentsCreate(mid string, content string) (map[string]interface{}, error){
+	req, err := http.NewRequest("POST",
+		"https://m.weibo.cn/api/comments/create",
+		strings.NewReader("content="+content+"&mid="+mid+"&st="+w.st+"&_spr=screen:1920x1080"),
+	)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Referer", "https://m.weibo.cn/detail/")
+	resp, err := w.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var data map[string]interface{}
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+// @title         CommentsDestroy
+// @description   删除自己的评论
+// @auth          星辰
+// @param         cid        string                   评论id
+// @return                   map[string]interface{}   接口返回值
+func (w *WeiboClient) CommentsDestroy(cid string) (map[string]interface{}, error){
+	req, err := http.NewRequest("POST",
+		"https://m.weibo.cn/comments/destroy",
+		strings.NewReader("cid="+cid+"&st="+w.st+"&_spr=screen:1920x1080"),
+	)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Referer", "https://m.weibo.cn/detail/")
 	resp, err := w.client.Do(req)
 	if err != nil {
 		return nil, err

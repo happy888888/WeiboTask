@@ -14,6 +14,10 @@
 ### 💥主要功能
 * [x] 💰微博超话签到⭐
 * [x] 💯每日积分获取🌀
+* [x] 🚅每日评论帖子并删除评论⚽
+* [x] ⛄每日转发帖子并删除转发⚾
+
+<img src="https://user-images.githubusercontent.com/67217225/102878310-0037e600-4483-11eb-85a8-ee0ab4b496c1.png" width="500" height="600" title="任务列表" style="display:block;" />
 
 🔊📒📓📔📕📗📘📙📚📖
 

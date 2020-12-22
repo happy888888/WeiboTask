@@ -27,7 +27,8 @@ func ReceiveScore(w *WeiboClient.WeiboClient, wg *sync.WaitGroup) {
 	}
 	if data["code"].(float64) == 100000 {
 		data = data["data"].(map[string]interface{})
-		log.Println("每日积分获取增加："+data["add_score"].(string)+"积分")
+		//log.Println("每日积分获取增加："+string(data["add_score"].(float64))+"积分")
+		log.Println("每日积分获取增加：", int(data["add_score"].(float64)))
 	}else{
 		log.Println("每日积分获取失败："+data["msg"].(string))
 	}
