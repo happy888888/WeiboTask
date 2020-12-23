@@ -264,3 +264,34 @@ func (w *WeiboClient) CommentsDestroy(cid string) (map[string]interface{}, error
 	}
 	return data, nil
 }
+
+// @title         checkinSignIn
+// @description   微博app签到
+// @auth          星辰
+// @param
+// @return                   map[string]interface{}   接口返回值
+func (w *WeiboClient) CheckinSignIn() (map[string]interface{}, error){
+	req, err := http.NewRequest("GET",
+		"https://m.weibo.cn/c/checkin/ug/v2/signin/signin?from=10AC395010&hash=task&luicode=20000301&st="+w.getST(),
+		nil,
+	)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	req.Header.Set("Referer", "https://m.weibo.cn/c/checkin")
+	req.Header.Set("X-Requested-With", "XMLHttpRequest")
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Linux; Android; none; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/74.0.3729.136 Mobile Safari/537.36 Weibo (android)")
+	resp, err := w.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var data map[string]interface{}
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}

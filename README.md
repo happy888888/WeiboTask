@@ -12,12 +12,16 @@
 </div>
 
 ### 💥主要功能
-* [x] 💰微博超话签到⭐
-* [x] 💯每日积分获取🌀
-* [x] 🚅每日评论帖子并删除评论⚽
-* [x] ⛄每日转发帖子并删除转发⚾
+* [x] 💰微博超话签到(超话app)⭐
+* [x] 💯每日积分获取(超话app)🌀
+* [x] 🚅每日评论帖子并删除评论(超话app)⚽
+* [x] ⛄每日转发帖子并删除转发(超话app)⚾
 
 <img src="https://user-images.githubusercontent.com/67217225/102878310-0037e600-4483-11eb-85a8-ee0ab4b496c1.png" width="500" height="600" title="任务列表" style="display:block;" />
+
+* [x] Ⓜ微博客户端签到(微博app)☀
+
+<img src="https://user-images.githubusercontent.com/67217225/103014306-8898b280-4579-11eb-8935-04602a8a7e9d.png" width="500" height="900" title="任务列表" style="display:block;" />
 
 🔊📒📓📔📕📗📘📙📚📖
 

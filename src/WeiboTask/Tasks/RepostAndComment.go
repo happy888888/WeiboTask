@@ -100,25 +100,24 @@ func CommentWithDel(w *WeiboClient.WeiboClient, list []string, wg *sync.WaitGrou
 		time.Sleep(time.Second * 6)
 		if err != nil {
 			log.Println("评论超话帖子"+mid+"异常："+err.Error())
-			return
+			continue
 		}
 		if data["ok"].(float64) == 1 {
 			log.Println("评论帖子"+mid+"成功")
 		}else{
 			log.Println("评论帖子"+mid+"失败:"+data["msg"].(string))
-			return
+			continue
 		}
 		mid = data["data"].(map[string]interface{})["mid"].(string)
 		data, err = w.CommentsDestroy(mid)
 		if err != nil {
 			log.Println("删除帖子评论"+mid+"异常："+err.Error())
-			return
+			continue
 		}
 		if data["ok"].(float64) == 1 {
 			log.Println("删除帖子评论"+mid+"成功")
 		}else{
 			log.Println("删除帖子评论"+mid+"失败:"+data["msg"].(string))
-			return
 		}
 	}
 }
