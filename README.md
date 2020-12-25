@@ -24,6 +24,7 @@
 * [x] ☕点赞帖子并删除(微博app,需要S参数)☔
 * [x] ♠转发帖子并删除(微博app,需要S参数)♣
 * [x] ♦关注用户并取关(微博app,需要S参数)♨
+* [x] ⭐刷关注微博(微博app,需要S参数)⭕
 
 <img src="https://user-images.githubusercontent.com/67217225/103014306-8898b280-4579-11eb-8935-04602a8a7e9d.png" width="500" height="900" title="任务列表" style="display:block;" />
 

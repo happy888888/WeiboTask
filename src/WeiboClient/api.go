@@ -652,6 +652,42 @@ func (w *WeiboClient) AppCancelLike(id string) (map[string]interface{}, error){
 	return data, nil
 }
 
+// @title         UnreadFriendsTimeline
+// @description   刷新未读帖子
+// @auth          星辰
+// @param
+// @return                   map[string]interface{}   接口返回值
+func (w *WeiboClient) UnreadFriendsTimeline() (map[string]interface{}, error){
+	req, err := http.NewRequest("POST",
+		"https://api.weibo.cn/2/statuses/unread_friends_timeline"+
+		"?orifid="+"guanzhu"+
+		"&fromlog="+"100016356549855"+
+		"&featurecode="+"10000001"+
+		"&c="+w.C+
+		"&s="+w.S+
+		"&from="+"10AC395010"+
+	    "&lfid="+"guanzhu"+
+		"&gsid="+w.getCookie("SUB", ".weibo.cn"),
+		strings.NewReader("since_id=0"),
+	)
+	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+	resp, err := w.client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	var data map[string]interface{}
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
 // @title         ScoreClaim
 // @description   微博app领取积分
 // @auth          星辰

@@ -25,10 +25,11 @@ func AppTaskEntry(w *WeiboClient.WeiboClient, wg *sync.WaitGroup) {
 		return
 	}
 	if wg != nil {
-		wg.Add(2)
+		wg.Add(3)
 	}
 	go AppFollowUser(w, wg)
 	go AppRepostCommentLike(w, wg)
+	go AppRead(w, wg)
 }
 
 // @title         weiboAppOK

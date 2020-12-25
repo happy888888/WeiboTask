@@ -75,7 +75,7 @@ func AppFollowWithUndo(w *WeiboClient.WeiboClient, uids []string, wg *sync.WaitG
 			break
 		}
 		data, err := w.AppFriendshipsCreate(uid)
-		time.Sleep(time.Second * 6)
+		time.Sleep(time.Second * 8)
 		if err != nil {
 			log.Println("微博app关注用户"+uid+"异常:"+err.Error())
 			continue

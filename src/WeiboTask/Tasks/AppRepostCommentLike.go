@@ -73,7 +73,7 @@ func AppRepostWithDel(w *WeiboClient.WeiboClient, mids []string, wg *sync.WaitGr
 			break
 		}
 		data, err := w.AppRepost(mid)
-		time.Sleep(time.Second * 6)
+		time.Sleep(time.Second * 7)
 		if err != nil {
 			log.Println("微博app转发帖子"+mid+"异常:"+err.Error())
 			continue
@@ -121,7 +121,7 @@ func AppCommentsWithDel(w *WeiboClient.WeiboClient, mids []string, wg *sync.Wait
 			break
 		}
 		data, err := w.AppCommentsCreate(mid, "o(￣▽￣)ｄ")
-		time.Sleep(time.Second * 6)
+		time.Sleep(time.Second * 8)
 		if err != nil {
 			log.Println("微博app评论帖子"+mid+"异常:"+err.Error())
 			continue
@@ -169,7 +169,7 @@ func ApplikeWithUndo(w *WeiboClient.WeiboClient, mids []string, wg *sync.WaitGro
 			break
 		}
 		data, err := w.AppSetLike(mid)
-		time.Sleep(time.Second * 6)
+		time.Sleep(time.Second * 5)
 		if err != nil {
 			log.Println("微博app点赞帖子"+mid+"异常:"+err.Error())
 			continue
