@@ -20,10 +20,10 @@
 <img src="https://user-images.githubusercontent.com/67217225/102878310-0037e600-4483-11eb-85a8-ee0ab4b496c1.png" width="500" height="600" title="任务列表" style="display:block;" />
 
 * [x] Ⓜ签到(微博app)☀
-* [x] Ⓜ评论帖子并删除(微博app,需要S参数)☀
-* [x] Ⓜ点赞帖子并删除(微博app,需要S参数)☀
-* [x] Ⓜ转发帖子并删除(微博app,需要S参数)☀
-* [x] Ⓜ关注用户并取关(微博app,需要S参数)☀
+* [x] ☁评论帖子并删除(微博app,需要S参数)☎
+* [x] ☕点赞帖子并删除(微博app,需要S参数)☔
+* [x] ♠转发帖子并删除(微博app,需要S参数)♣
+* [x] ♦关注用户并取关(微博app,需要S参数)♨
 
 <img src="https://user-images.githubusercontent.com/67217225/103014306-8898b280-4579-11eb-8935-04602a8a7e9d.png" width="500" height="900" title="任务列表" style="display:block;" />
 
@@ -33,7 +33,7 @@
 
 ### 🚀使用方式
 
-本项目***不会使用任何账号密码***❌，仅需要[新浪网👼](https://www.sina.com.cn/) 的一个名为`ALC`✌的cookie(获取方式见下面说明)并存放到config.json文件中 <br>
+本项目***不会使用任何账号密码***❌，仅需要[新浪网👼](https://www.sina.com.cn/) 的一个名为`ALC`✌的cookie(获取方式见下面说明)并存放到config.json文件中(微博app任务需要S参数,只能靠手机抓包得到) <br>
 config.json文件会缓存您的cookie以***保存***和刷新您的***登录状态***，使登录状态一直有效而***不必重复登录***，从而方便放在路由器(opwnwrt,padavan...)，nas(群辉,威联通...)，电视盒子(armbian等linux系统)等设备上持续运行 <br>
 
 #### ➰一、Windows本地运行
@@ -52,7 +52,7 @@ config.json文件会缓存您的cookie以***保存***和刷新您的***登录状
 * 1.3 启动⚡
         进入本项目[Release](https://github.com/happy888888/WeiboTask/releases) ，下载windows版本压缩包  <br>
 		用记事本打开`config.json`文件，把***步骤1.1***中获得的cookie值填写到`"name": "ALC"`下面的`"value": ""`字段 <br>
-		![image](https://user-images.githubusercontent.com/67217225/102366467-a69f6980-3ff3-11eb-84f7-5933da15f9a8.png) <br>
+		![image](https://user-images.githubusercontent.com/67217225/103126469-6f068080-46c9-11eb-890e-a6f4cb6088bb.png) <br>
 		保存文件后直接双击`WeiboTask.exe`文件启动💎
 
 #### 🚩✅二、openwrt等路由器运行（推荐）
