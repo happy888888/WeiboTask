@@ -83,7 +83,7 @@ func runOnce(reloadConfig bool) {
 		}
 	}
 	defer sendToServerChan()
-	wb := WeiboClient.New()
+	wb := WeiboClient.New(MyConfig.C, MyConfig.S)
 	if wb.LoginByCookies(MyConfig.Cookies) {
 		defer func() { MyConfig.Cookies = wb.GetCookies(); _ = SaveConfig() }()
 		runTasks(wb)

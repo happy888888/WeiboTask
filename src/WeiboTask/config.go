@@ -18,6 +18,8 @@ type Config struct{
 	SCKEY string                  //server酱的推送key
 	Cookies []WeiboClient.Cookie  //cookies用于保持登录状态
 	Stime [2]int                  //定时启动时间，格式为{小时, 分钟}
+	C string                      //平台,如"android"
+	S string                      //app秘钥,6位字符串
 }
 
 var MyConfig Config  //配置文件对象

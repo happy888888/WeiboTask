@@ -36,22 +36,5 @@ func AppSignIn(w *WeiboClient.WeiboClient, wg *sync.WaitGroup) {
 		return
 	}
 	continuous := sign_in["continuous"].(float64)
-	sign_in = sign_in["sign_in"].(map[string]interface{})
-	if sign_in["show"].(float64) == 1 {
-		gift := sign_in["content"].(map[string]interface{})["gift"].(map[string]interface{})
-		if money, ok := gift["money"]; ok {
-			log.Println(fmt.Sprintf("微博app签到获得%s%s,已连续签到%0.0f天",
-				money.(map[string]interface{})["value"].(string),
-				money.(map[string]interface{})["unit"].(string),
-				continuous))
-		}
-		if points, ok := gift["points"]; ok {
-			log.Println(fmt.Sprintf("微博app签到获得%s%s,已连续签到%0.0f天",
-				points.(map[string]interface{})["value"].(string),
-				points.(map[string]interface{})["unit"].(string),
-				continuous))
-		}
-	}else{
-		log.Println(fmt.Sprintf("微博app已连续签到%0.0f天", continuous))
-	}
+	log.Println(fmt.Sprintf("微博app已连续签到%0.0f天", continuous))
 }

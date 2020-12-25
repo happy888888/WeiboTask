@@ -13,6 +13,8 @@ import (
 // WeiboClient   微博客户端对象，包含一个http客户端及cookieJar
 type WeiboClient struct{
 	client *http.Client
+	C string
+	S string
 }
 
 // @title         init
@@ -35,8 +37,10 @@ func (w *WeiboClient) init() {
 // @description   创建一个WeiboClient对象并初始化
 // @auth          星辰
 // @return        WeiboClient对象
-func New() *WeiboClient {
+func New(c string, s string) *WeiboClient {
 	ret := new(WeiboClient)
 	ret.init()
+	ret.C = c
+	ret.S = s
 	return ret
 }
