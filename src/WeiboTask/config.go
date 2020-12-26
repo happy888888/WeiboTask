@@ -57,7 +57,7 @@ func LoadConfig() error {
 // @param         path          string     配置文件路径(需要写入权限)
 // @return
 func SaveConfig() error {
-	f, err := os.OpenFile(ConfigPath, os.O_WRONLY|os.O_CREATE,0600)
+	f, err := os.OpenFile(ConfigPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC,0600)
 	if err != nil {
 		return err
 	}
@@ -68,6 +68,6 @@ func SaveConfig() error {
 	}
 	var str bytes.Buffer
 	_ = json.Indent(&str, s, "", "    ")
-	_, err = f.Write([]byte(str.String()))
+	_, err = f.Write(str.Bytes())
 	return err
 }
