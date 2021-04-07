@@ -59,7 +59,8 @@ func GetSuperTopics(w *WeiboClient.WeiboClient, ch chan<- [2]string) {
 			break
 		}
 		//python里直接["data"]["cardlistInfo"]["since_id"]
-		sinceId, ok := data["data"].(map[string]interface{})["cardlistInfo"].(map[string]interface{})["since_id"]
+		var ok bool
+		sinceId, ok = data["data"].(map[string]interface{})["cardlistInfo"].(map[string]interface{})["since_id"].(string)
 		if !ok {
 			log.Println("获取超话列表sinceId错误")
 			break

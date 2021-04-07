@@ -306,7 +306,7 @@ func (w *WeiboClient) UrlSafe() (map[string]interface{}, error){
 	resp, err := w.client.Get("https://api.weibo.cn/2/client/url_safe"+
 		"?c="+w.C+
 		"&s="+w.S+
-		"&from="+"10AC395010"+
+		"&from="+w.F+
 		"&gsid="+w.getCookie("SUB", ".weibo.cn"),
 	)
 	if err != nil {
@@ -334,7 +334,7 @@ func (w *WeiboClient) CardList(containerid string) (map[string]interface{}, erro
 	resp, err := w.client.Get("https://api.weibo.cn/2/cardlist"+
 		"?c="+w.C+
 		"&s="+w.S+
-		"&from="+"10AC395010"+
+		"&from="+w.F+
 		"&gsid="+w.getCookie("SUB", ".weibo.cn")+
 		"&page="+"1"+
 		"&count="+"20"+
@@ -369,7 +369,7 @@ func (w *WeiboClient) AppRepost(id string) (map[string]interface{}, error){
 		"share_source":"0",
 		"is_fast":"1",
 		"gsid":w.getCookie("SUB", ".weibo.cn"),
-		"from":"10AC395010",
+		"from":w.F,
 	}
 	var b bytes.Buffer
 	wt := multipart.NewWriter(&b)
@@ -391,7 +391,7 @@ func (w *WeiboClient) AppRepost(id string) (map[string]interface{}, error){
 			"?c="+w.C+
 			"&s="+w.S+
 			"&id="+id+
-			"&from="+"10AC395010"+
+			"&from="+w.F+
 			//"&gsid="+w.getCookie("SUB", ".weibo.cn"),
 			"&gsid="+bodyMap["gsid"],
 		&b,
@@ -424,7 +424,7 @@ func (w *WeiboClient) AppDestroy(id string) (map[string]interface{}, error){
 		"?c="+w.C+
 		"&s="+w.S+
 		"&id="+id+
-		"&from="+"10AC395010"+
+		"&from="+w.F+
 		"&gsid="+w.getCookie("SUB", ".weibo.cn"),
 	)
 	if err != nil {
@@ -476,7 +476,7 @@ func (w *WeiboClient) AppCommentsCreate(id string, content string) (map[string]i
 			"&s="+w.S+
 			"&fromlog="+"100016356549855"+
 			"&featurecode="+"10000001"+
-			"&from="+"10AC395010"+
+			"&from="+w.F+
 			"&lfid="+"guanzhu"+
 			"&gsid="+w.getCookie("SUB", ".weibo.cn"),
 		&b,
@@ -509,7 +509,7 @@ func (w *WeiboClient) AppCommentsDestroy(id string) (map[string]interface{}, err
 		"?c="+w.C+
 		"&s="+w.S+
 		"&cid="+id+
-		"&from="+"10AC395010"+
+		"&from="+w.F+
 		"&gsid="+w.getCookie("SUB", ".weibo.cn"),
 	)
 	if err != nil {
@@ -542,7 +542,7 @@ func (w *WeiboClient) AppFriendshipsCreate(id string) (map[string]interface{}, e
 		"&invite="+"0"+
 		"&able_recommend="+"0"+
 		"&featurecode="+"10000326"+
-		"&from="+"10AC395010"+
+		"&from="+w.F+
 		"&gsid="+w.getCookie("SUB", ".weibo.cn"),
 	)
 	if err != nil {
@@ -573,7 +573,7 @@ func (w *WeiboClient) AppFriendshipsDestroy(id string) (map[string]interface{}, 
 		"&uid="+id+
 		"&trim_level="+"0"+
 		"&trim="+"1"+
-		"&from="+"10AC395010"+
+		"&from="+w.F+
 		"&gsid="+w.getCookie("SUB", ".weibo.cn"),
 	)
 	if err != nil {
@@ -603,7 +603,7 @@ func (w *WeiboClient) AppSetLike(id string) (map[string]interface{}, error){
 		"&s="+w.S+
 		"&id="+id+
 		"&sourcetype="+"feed"+
-		"&from="+"10AC395010"+
+		"&from="+w.F+
 		"&gsid="+w.getCookie("SUB", ".weibo.cn"),
 	)
 	if err != nil {
@@ -633,7 +633,7 @@ func (w *WeiboClient) AppCancelLike(id string) (map[string]interface{}, error){
 		"&s="+w.S+
 		"&id="+id+
 		"&sourcetype="+"feed"+
-		"&from="+"10AC395010"+
+		"&from="+w.F+
 		"&gsid="+w.getCookie("SUB", ".weibo.cn"),
 	)
 	if err != nil {
@@ -665,7 +665,7 @@ func (w *WeiboClient) UnreadFriendsTimeline() (map[string]interface{}, error){
 		"&featurecode="+"10000001"+
 		"&c="+w.C+
 		"&s="+w.S+
-		"&from="+"10AC395010"+
+		"&from="+w.F+
 	    "&lfid="+"guanzhu"+
 		"&gsid="+w.getCookie("SUB", ".weibo.cn"),
 		strings.NewReader("since_id=0"),

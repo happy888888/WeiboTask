@@ -15,6 +15,7 @@ type WeiboClient struct{
 	client *http.Client
 	C string
 	S string
+	F string
 }
 
 // @title         init
@@ -37,10 +38,11 @@ func (w *WeiboClient) init() {
 // @description   创建一个WeiboClient对象并初始化
 // @auth          星辰
 // @return        WeiboClient对象
-func New(c string, s string) *WeiboClient {
+func New(c string, s string, f string) *WeiboClient {
 	ret := new(WeiboClient)
 	ret.init()
 	ret.C = c
 	ret.S = s
+	ret.F = f
 	return ret
 }
