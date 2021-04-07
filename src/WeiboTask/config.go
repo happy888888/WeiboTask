@@ -20,6 +20,7 @@ type Config struct{
 	Stime [2]int                  //定时启动时间，格式为{小时, 分钟}
 	C string                      //平台,如"android"
 	S string                      //app秘钥,6位字符串
+	F string                      //app from参数,8位字符串
 }
 
 var MyConfig Config  //配置文件对象
