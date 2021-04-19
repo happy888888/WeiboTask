@@ -28,7 +28,7 @@ func sendToServerChan() {
 		return
 	}
 	resp, err := http.PostForm(
-		"https://sc.ftqq.com/"+MyConfig.SCKEY+".send",
+		"https://sct.ftqq.com/"+MyConfig.SCKEY+".send",
 		url.Values{
 			"text": {"Weibo_sign_in消息推送"},
 			"desp": {strings.Replace(mBuffer.String(), "\n", "\n\n", -1 )},
